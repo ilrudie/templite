@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path"
 	"text/template"
@@ -49,12 +50,30 @@ to quickly create a Cobra application.`,
 
 		//check if valFile is readable
 
-		values, err := os.ReadFile(valFile)
-		if err != nil {
+		var values []byte
+		var err error
 
-			fmt.Fprintf(os.Stderr, "unable to read values file due to error: %v\n", err)
+		if valFile == "-" {
 
-			os.Exit(1)
+			_, err := io.ReadFull(os.Stdin, values)
+			if err != nil {
+
+				fmt.Fprintf(os.Stderr, "unable to read from stdin due to error: %v\n", err)
+
+				os.Exit(1)
+
+			}
+
+		} else {
+
+			values, err = os.ReadFile(valFile)
+			if err != nil {
+
+				fmt.Fprintf(os.Stderr, "unable to read values file due to error: %v\n", err)
+
+				os.Exit(1)
+
+			}
 
 		}
 
