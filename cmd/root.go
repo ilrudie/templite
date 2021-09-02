@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"fmt"
-	"io"
+	"io/ioutil"
 	"os"
 	"path"
 	"text/template"
@@ -55,7 +55,8 @@ to quickly create a Cobra application.`,
 
 		if valFile == "-" {
 
-			_, err := io.ReadFull(os.Stdin, values)
+			values, err = ioutil.ReadAll(os.Stdin)
+
 			if err != nil {
 
 				fmt.Fprintf(os.Stderr, "unable to read from stdin due to error: %v\n", err)
@@ -116,7 +117,7 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.templite.yaml)")
 	rootCmd.PersistentFlags().StringVar(&tmplFile, "template", "./template.tmpl", "template file (default is ./template.tmpl)")
-	rootCmd.PersistentFlags().StringVar(&valFile, "values", "./values.yaml", "values file (default is ./values.yaml)")
+	rootCmd.PersistentFlags().StringVar(&valFile, "file", "./values.yaml", "values file (default is ./values.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
