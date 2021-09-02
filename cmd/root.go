@@ -117,7 +117,7 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.templite.yaml)")
 	rootCmd.PersistentFlags().StringVar(&tmplFile, "template", "./template.tmpl", "template file (default is ./template.tmpl)")
-	rootCmd.PersistentFlags().StringVar(&valFile, "file", "./values.yaml", "values file (default is ./values.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&valFile, "file", "f", "./values.yaml", "values file (default is ./values.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
